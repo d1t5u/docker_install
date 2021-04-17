@@ -1,0 +1,6 @@
+---
+# defaults file for roles/docker_install
+
+docker_packages:
+  - docker-ce
+  - python-docker

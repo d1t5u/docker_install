@@ -1,0 +1,28 @@
+---
+# tasks file for roles/docker_install
+
+- name: Add docker community repo
+  yum_repository:
+    name: docker-ce-stable
+    description: "Docker CE Stable - $basearch"
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable/
+    file: docker-ce
+    enabled: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
+
+- name: Istall docker-ce
+  yum:
+    name: "{{ docker_packages }}"
+    state: latest
+
+- name: Run docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Add user "{{ ansible_user }}" to docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: "docker"
+    append: yes
